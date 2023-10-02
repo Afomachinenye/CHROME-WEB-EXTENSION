@@ -1,1 +1,84 @@
 
+Video Recording API
+
+Base URL
+The base URL for all API endpoints is https://good-lime-kitten-toga.cyclic.cloud
+
+Start a New Video Recording
+Endpoint:/api/start-recording
+
+HTTP Method: POST
+
+Description: Initiate a new video recording session.
+Response:
+200 OK: A successful request clears any previous video chunks and returns a unique video ID.
+
+500 Internal Server Error: An error occurred on the server.
+
+Example
+Request:
+
+POST https://good-lime-kitten-toga.cyclic.cloud/api/start-recording
+
+Response (Success):
+{
+  "videoId": "1635637171178"
+}
+
+Append Video Data to Recording
+Endpoint: /api/append-video/:videoId
+HTTP Method: POST
+Description: Append video data to an existing video recording session.
+
+Request Parameters:
+videoId (URL Parameter): The unique video ID obtained when starting the recording.
+
+Request Body: Upload a video file.
+
+Response:
+200 OK: Video data is appended successfully.
+400 Bad Request: No video file provided.
+500 Internal Server Error: An error occurred on the server.
+
+Example
+
+Request:
+POST https://good-lime-kitten-toga.cyclic.cloud/api/append-video/1635637171178
+Content-Type: multipart/form-data
+Response (Success):
+
+{
+  "message": "Video chunk appended successfully."
+}
+Response (No Video File Provided):
+{
+  "error": "No video file provided."
+}
+
+Complete Video Recording and Get Video URL
+Endpoint:/api/complete-recording/:videoId
+
+HTTP Method: POST
+Description: Complete a video recording session and get the video URL.
+
+Request Parameters:
+videoId (URL Parameter): The unique video ID obtained when starting the recording.
+
+Response:
+200 OK: The complete video is uploaded to Cloudinary, and the Cloudinary URL is provided.
+400 Bad Request: No video data found.
+500 Internal Server Error: An error occurred on the server.
+
+Example
+Request:
+POST https://good-lime-kitten-toga.cyclic.cloud/api/complete-recording/1635637171178
+
+Response (Success):
+{
+  "url": "https://cloudinary.com/video/your_video_url"
+}
+Response (No Video Data Found):
+{
+  "error": "No video data found."
+}
+This API documentation provides an overview of the available endpoints, their descriptions, expected request parameters, request bodies, and possible responses. The endpoints allow you to start, append, and complete video recording sessions while providing necessary error handling for various scenarios.
